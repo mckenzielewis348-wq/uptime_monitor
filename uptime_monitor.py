@@ -8,6 +8,7 @@ TARGETS = [
     "https://vercel.com",
     "https://google.com"
 ]
+
 CHECK_INTERVAL = 5  # Seconds between checks (for testing)
 
 def check_site(url):
@@ -15,7 +16,7 @@ def check_site(url):
     try:
         # Send a request with a user-agent header to avoid being blocked
         req = urllib.request.Request(
-            url, 
+            url,
             headers={'User-Agent': 'Mozilla/5.0'}
         )
         with urllib.request.urlopen(req, timeout=5) as response:
@@ -23,28 +24,23 @@ def check_site(url):
             response_time = round((end_time - start_time) * 1000, 2)
             
             if response.status == 200:
-                print(f"🟢 [UP] {url} - Status: {response.status} - Response Time: {response_time}ms")
+                print(f"🟢 [UP] {url} - Status: {response.status} - Time: {response_time}ms")
             else:
                 print(f"🟡 [WARNING] {url} - Status: {response.status}")
                 
     except urllib.error.URLError as e:
         print(f"🔴 [DOWN] {url} - Error: {e.reason}")
-    except Exception as e:
-        print(f"🔴 [DOWN] {url} - Error: {str(e)}")
 
 def main():
-    print("--- 🚀 STARTING LIVE UPTIME MONITOR ---")
-    print(f"Monitoring {len(TARGETS)} targets. Press Ctrl+C to stop.\n")
-    
+    print("🚀 Starting Uptime Monitor... Press Ctrl+C to stop.\n")
     try:
         while True:
-            print(f"\n--- Checking at {time.strftime('%Y-%m-%d %H:%M:%S')} ---")
             for site in TARGETS:
                 check_site(site)
+            print("-" * 40)
             time.sleep(CHECK_INTERVAL)
-            
     except KeyboardInterrupt:
-            print("\nMonitor stopped by user. Stay secure out there!")
+        print("\n👋 Uptime Monitor stopped. Have a great day!")
 
 if __name__ == "__main__":
     main()
