@@ -8,7 +8,6 @@ TARGETS = [
     "https://vercel.com",
     "https://google.com"
 ]
-
 CHECK_INTERVAL = 5  # Seconds between checks (for testing)
 
 def check_site(url):
